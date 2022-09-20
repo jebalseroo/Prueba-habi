@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <title>Document</title>
+</head>
+<style>
+    body, html {
+      height: 100%;
+      font-family: "Inconsolata", sans-serif;
+    }
+    
+    .bgimg {
+      background-position: center;
+      background-size: cover;
+      background-image: url("./fondo1.jpg");
+      min-height: 75%;
+    }
+    
+    .menu {
+      display: none;
+    }
+    </style>
+    </head>
+    <body>
+    <!-- Links (sit on top) -->
+    <div class="w3-top">
+        <div class="w3-row w3-padding w3-black">
+        <div class="w3-col s3">
+            <a href="#" class="w3-button w3-block w3-black">Inicio</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#Nuevo_orden" class="w3-button w3-block w3-black">Nuevo orden mundial</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#Analisis" class="w3-button w3-block w3-black">Analisis para Marketing</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="#Pregunta" class="w3-button w3-block w3-black">Pregunta extra</a>
+        </div>
+        </div>
+    </div>
+    
+    <!-- Header with image -->
+    <header class="bgimg w3-display-container w3-grayscale-min" id="home">
+        <div class="w3-display-middle w3-center">
+        <span class="w3-text-white" style="font-size:90px">Prueba<br>Tecnica</span>
+        </div>
+        <div class="w3-display-bottomright w3-center w3-padding-large">
+        <span class="w3-text-white">19-09-2022 Juan Estiven Balsero Oyuela
+
+        </span>
+        </div>
+    </header>
+    
+    <!-- Add a background color and large text to the whole page -->
+    <div class="w3-sand w3-grayscale w3-large">
+    
+    <!-- About Container -->
+    <div class="w3-container" id="Nuevo_orden">
+        <div class="w3-content" style="max-width:700px">
+            <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Nuevo orden mundial</span></h5>
+            <p>Se le da una cadena S. S contiene solo caracteres alfanumericos. Su tarea es ordenar la cadena S de la siguiente manera:</p>
+            <ul>
+                <li>Todas las letras minusculas ordenadas estan por delante de las mayusculas.</li>
+                <li>Todas las letras mayusculas ordenadas estan por delante de los digitos.</li>
+                <li>Todos los digitos impares ordenados estan por delante de los digitos pares ordenados.</li>
+            </ul>
+            <div class="w3-panel w3-leftbar w3-light-grey">
+                <p><i>Por favor ingrese una cadena a ordenar</i></p>
+                <p><input class="w3-input w3-padding-16 w3-border" onchange="punto1()" type="text" placeholder="Cadena" required id="myInput" name="Cadena"></p>
+                <p>La cadena ordenada es: <pre id="output1"></pre></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Menu Container -->
+    <div class="w3-container" id="Analisis">
+        <div class="w3-content" style="max-width:700px">
+    
+        <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">Analisis para Marketing</span></h5>
+        <p>Considere el siguiente esquema relacional</p>
+        <p>tabla-TIENDA(codigo-tienda: int pk, nombre-tienda: varchar), tabla-BEBIDA(codigo-bebida: 
+            int pk, nombre-bebida: varchar), tabla-BEBEDOR(cedula: bigint pk, nombre: varchar)</p>
+        <p>tabla-GUSTA(cedula: bigint pk, codigo-bedida: int fk), tabla-FRECUENTA(cedula: bigint pk,
+            codigo-tienda: int fk), tabla-VENDE(codigo-tienda: int fk, codigo-bebida: int fk, precio: float)</p>
+        
+        <ul>
+            <li>Los bebedores que no les gusta la colombiana.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT  * FROM BEBEDOR WHERE Cedula = (SELECT cedula FROM GUSTA WHERE NOT 
+                        codigo-bebida = (SELECT codigo-bebida FROM BEBIDA WHERE nombre-bebida 
+                        = 'colombiana')); </p>
+                </div>
+            </li>
+            <li>Las fuentes de soda que no son frecuentadas por Andres Camilo Restrepo.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT * FROM TIENDA WHERE NOT codigo-tienda = (SELECT codigo-tienda 
+                        FROM FRECUENTA WHERE cedula = (SELECT cedula FROM bebedor WHERE nombre 
+                        = 'Andres Camilo Restrepo')); </p>
+                </div>
+            </li>
+            <li>Los bebedores que les gusta al menos una bebida y que frecuentan al menos una tienda.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT * FROM bebedor AS b WHERE EXISTS (SELECT * FROM gusta AS g WHERE 
+                        g.cedula = b.cedula) AND EXISTS (SELECT * FROM frecuenta AS f WHERE f.cedula 
+                        = b.cedula); </p>
+                </div>
+            </li>
+            <li>Para cada bebedor, las bebidas que no le gustan.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT * FROM bebedor AS b INNER JOIN gusta ON b.cedula != gusta.cedula; </p>
+                </div>
+            </li>
+
+            <li>Los bebedores que frecuentan solo las tiendas que frecuenta Luis Perez.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT * FROM bebedor AS b INNER JOIN tienda ON codigo-tienda = (SELECT 
+                        codigo-tienda  FROM tienda AS t WHERE t.codigo-tienda = (SELECT codigo-tienda 
+                        FROM frecuenta AS f WHERE f.cedula = (SELECT cedula FROM bebedor AS b WHERE
+                        b.nombre = 'Luis Perez.'))); </p>
+                </div>
+            </li>
+
+            <li>Los bebedores que unicamente frecuentan las tiendas que unicamente sirven alguna 
+                bebida que le gusta.
+                <div class="w3-panel w3-leftbar w3-light-grey">
+                    <p>SELECT * FROM bebedor AS b INNER JOIN frecuenta AS f  ON b.cedula = 
+                        f.cedula INNER JOIN gusta AS g  ON b.cedula = g.cedula; </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Contact/Area Container -->
+    <div class="w3-container" id="Pregunta" style="padding-bottom:32px;">
+        <div class="w3-content" style="max-width:700px">
+            <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Pregunta extra</span></h5>
+            <p>Se le proporcionará un fragmento de marcado HTML. Su tarea es identificar los nombres de 
+                dominio únicos de los enlaces o Urls que están presentes en el fragmento de marcado.</p>
+            <p>Por ejemplo, si el enlace http://www.habi.co/contacto está presente en el marcado, debe 
+                detectar el dominio: habi.co. En caso de que haya dominios de segundo nivel o de nivel 
+                superior presentes en el marcado, todos ellos deben ser tratados como únicos. Por ejemplo
+                , si los enlaces</p>
+            <ul>
+                <li>https://youtu.be/ARWg160eaX4</li>
+                <li>https://youtu.abc.be/ARWg160eaX4</li>
+                <li>https://youtu.abcd.be/ARWg160eaX4?t=125</li>
+            </ul>
+            <p>están presentes en el marcado, entonces [youtu.be, abc.youtu.be, abcd.youtu.be] deben ser 
+                identificados como dominios únicos presentes en el marcado. Los prefijos como ”www. 2”ww2.
+                ”, si están presentes,deben ser eliminados del nombre de dominio.</p>
+            <div class="w3-panel w3-leftbar w3-light-grey">
+                <p><i>Por favor ingrese El documento con el fragmento HTML </i></p>
+                <p><input type="file" onchange="loadFile(this.files[0])"></p>
+                <p>Los dominios identificados son: <pre id="output"></pre></p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
